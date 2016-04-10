@@ -1,0 +1,17 @@
+Week #1
+
+For the first week, the topic for the debate was the system architecture. 
+What could be the ideal design for the system and what modules we would include in the design?
+
+Also, the use of Heroku and AWS was a part of discussion.
+
+For the next week #2, I plan to work on constrcuting the architecture and creating the database schemas. Also I will have a task of creating the Rest API for the web-app. 
+
+In the architecture design, we have to build the server nodes and the REST api services for the Heroku web-app. The rest api can either rest in Heroku or on AWS. Either of the approach will decide the amount of hours to be invested in the procedure.
+
+I had a task on hand to research about the most suitable databses for storing sessions, shopping cart, product catalogs.
+For the user accounts, I think we will use Reddis for storing sessions of the logged-in users. As reddis is a key-value database and crazy fast for Master-slave design, it will be a good fit for the user`s session management.
+
+For managing the shopping cart and product catalog, we can use Riak. Apart from highly reliable and scalable database, Riak also provides fault tolerance if a server node goes down. In case, we scale the business and add more number of nodes into the network, Riak provides much more scalibility.
+Morever, Riak is a persistance database so we can store the user selected cart choices even after he goes down and comes back again.
+ 
