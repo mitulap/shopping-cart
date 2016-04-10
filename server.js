@@ -17,14 +17,13 @@ app.get('/allItems', function (req, res) {
             "price": 12.50,
             "tags": ["jeans", "blue"]
         }
-
         ]
     };
    res.end( JSON.stringify(data) );
 });
 
 app.post('/item', function (req, res) {
-   console.log( "Got a request for allItems" );
+   console.log( "Got a post request for creating a new item" );
    var data = {
         "Message" : "Data Saved Successfully",
         "id": 1,
