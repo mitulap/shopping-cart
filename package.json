@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/mitulap/shopping-cart/issues"
   },
-  "homepage": "https://github.com/mitulap/shopping-cart"
+  "homepage": "https://github.com/mitulap/shopping-cart",
+  "dependencies": {
+    "express": "~4.13.4"
+  }
 }
