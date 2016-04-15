@@ -1,5 +1,9 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var app = express();
+app.use(bodyParser.json());
+
+require('./app/routes/product')(app);
 
 app.get('/allItems', function (req, res) {
    console.log( "Got a request for allItems" );
