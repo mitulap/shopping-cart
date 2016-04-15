@@ -8,7 +8,8 @@ This project is an implementation of shopping cart using amazon AWS cloud platfo
 ### Preconditions
 
  * Install Node.js on machine.
- * Then run `npm install` in project directory to install dependencies
+ * Then run `npm install` in project directory to install dependencies.
+ * Run 'node server.js' to start server.
 
 ### UI WireFrame
 
