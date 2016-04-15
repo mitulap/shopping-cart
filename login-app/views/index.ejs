@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home Page</title>
+</head>
+<body>
+	<% if(!isAuthenticated) { %>
+		<a href="/login">Please Log In Here</a>
+	<% } else {%>
+		Hello, <%= user.name %>!
+	<% } %>
+</body>
+</html>
