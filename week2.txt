@@ -1,0 +1,20 @@
+Week #2
+
+The past week had been full of confusion and hence the progress suffered a bit. As I was confuse with what does the front-end and back-end mean particularly in the context of the current project.
+For the past week, I started off with the Rest API for Sign up and Sign-In. I have installed and running Redis on local machine as well as heroku.
+Also, the end-point API for user database has been created.
+
+I have finally decided to use Redis for the User Accounts and Session management. Thus Redis will be my prime datatbase instance to check and authenticate the users whenever they try to loginn.
+
+But the main part would be to manage the session of the users of each server nodes.
+The user can have multiple access to the Shopping cart. As the user can use multiple windows to access the shopping cart or access it from mobile app. In such case, the session for user has to be maintained. Redis is very quick in such case as it is key-value pair datatbase.
+
+Also to maintain the product details, we will use MongoDB. As the structure for a product details might vary product to product.
+
+Also the shoppinh cart would be maintained using Riak. As the Network has to be fault tolerance, the case in which the server goes down and leaves the system in partitioned state. Riak provides the assurance that in case of server down, it will handle the GET and POST/PUT/DELETE queries from users. It will provide the essential feature for handling the database in the Master-slave design.
+
+Also for the product catalog, we plan to use Ebay API for fetching the product details. This saves us from creating and maintaining our own product inventory. 
+
+PLANS FOR WEEK 3
+
+For the next week, I plan to finish the user management and session management. This includes the job to maintain  sessions for the user on multiple devices. Also I would plan to start working on the Ebay API and create product API for catalog.
