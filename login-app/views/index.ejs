@@ -5,7 +5,12 @@
 </head>
 <body>
 	<% if(!isAuthenticated) { %>
-		<a href="/login">Please Log In Here</a>
+		<h2>If you are not a registered user then register here.</h2>
+		<a href="/register">Please Register Here</a>
+		
+		<br />
+		<h2>If you are a registered user then login herer.</h2>
+		<a href="/login">Log In Here</a>
 	<% } else {%>
 		Hello, <%= user.name %>!
 	<% } %>

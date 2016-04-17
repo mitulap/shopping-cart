@@ -12,7 +12,7 @@ var app = express();
 
 app.set('view engine','ejs');
 
-
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded( { extended: false } ));
 app.use(cookieParser());
 app.use(expressSesssion({
@@ -24,6 +24,7 @@ app.use(expressSesssion({
 app.use(passport.initialize());
 app.use(passport.session());
 
+//var isAuthenticated = false;
 
 //verify username and password is correct
 passport.use(new passportLocal.Strategy(function(username, passowrd, done){
@@ -47,7 +48,7 @@ passport.use(new passportLocal.Strategy(function(username, passowrd, done){
 }));
 
 
-passport.serializeUser(function(user, done){
+/*passport.serializeUser(function(user, done){
 	done(user.id);
 });
 
@@ -56,7 +57,7 @@ passport.deserializeUser(function(id, done){
 	//query database or cache
 	done({id: id, name: id});
 
-});
+});*/
 
 app.get('/', function(req, res){
 	res.render('index', {
@@ -65,7 +66,6 @@ app.get('/', function(req, res){
 	});
 });
 
-
 app.get('/login', function(req, res){
 	
 	res.render('login');
@@ -73,8 +73,30 @@ app.get('/login', function(req, res){
 
 
 //call where we are authenticating user
-app.post('/login', passport.authenticate('local') , function(req, res){
-	console.log("Coming here....");
+app.post('/login', function(req, res){
+	console.log(req);
+
+	if(req.body.Username === req.body.Password){
+		console.log("Getting execute");
+		res.isAuthenticated = true;
+	}
+	
+	res.redirect('/');
+});
+
+
+app.get('/register', function(req, res){
+	console.log("registration");
+
+	res.render('register');
+
+});
+
+app.post('/register', function(req, res){
+
+	console.log("Adding user here");
+	//here database API calls will come
+
 	res.redirect('/');
 });
 
