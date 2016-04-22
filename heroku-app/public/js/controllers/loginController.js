@@ -38,4 +38,10 @@ shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$c
             $location.path("/" + "login");
         });*/
 
-}}]);
+    }
+
+    $scope.register = function(){
+        $location.path("/" + "register");
+    }
+
+}]);

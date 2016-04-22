@@ -28,5 +28,13 @@ var shoppingCart = angular.module('shoppingCart', ['chart.js', 'ngRoute', 'ngAni
         templateUrl: 'products.html',
         controller: 'ProductController'
     }).
+    when('/register', {
+        templateUrl: 'register.html',
+        controller: 'RegistrationController'
+    }).
+    when('/', {
+        templateUrl: 'index.html',
+        controller: 'mainController'
+    }).
     otherwise({redirectTo: '/'});
 });

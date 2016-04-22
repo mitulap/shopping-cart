@@ -114,3 +114,8 @@ nav li a, #dropdown-menu{
     margin-left: 20px;
 
 }
+
+.registeration-form-cls {
+    display: table;
+    margin: 0 auto;
+}
