@@ -4,22 +4,67 @@ It handles the request of (1) Creating a new product.
 (2) Retrieving a product by product name
 */
 
+/*
+CREATE TABLE product(productname text, productprice int, productid int, productcategory text, productimageurl text, userid int, PRIMARY KEY((userid), productname));
+INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15, 1, 'electronics', 'http://example.com/product', 1);
+*/
+
+const cassandra = require('cassandra-driver');
+const client=new cassandra.Client({contactPoints : ['localhost:9042']});
+var getAllProductsOfUser = 'SELECT * FROM products.product WHERE userid=?';
+var createProductOfUser = 'INSERT INTO products.product(productname, productprice, productid, productcategory, productimageurl, userid) VALUES(?, ?, ?, ?, ?, ?)';
+var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=? AND productname=?'
+
 module.exports = function(app) {
-	//Temporarily return json response as it is
-	app.post('/products', function(req, res) {
+	app.post('/products/:userid', function(req, res) {
 		var body = req.body;
 		var productName = body.product.name;
 		var productPrice = body.product.price;
+		var productId = body.product.id;
 		var productCategory = body.product.category;
+		var productImageUrl = body.product.imageurl;
+		var userid = req.params.userid;
+		var values = [productName, productPrice, productId, productCategory, productImageUrl, userid];
 
-		return res.json({name: productName, price: productPrice, category: productCategory});
+		client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
+			if(err) {
+				res.status(404).send({msg: err});
+			}
+			else {
+				res.status(201).json('message', "product added");
+			}
+		});
 	});
 
-	app.get('/products/:productName', function(req, res) {
-		return res.json({name:"XYZ", price:"123", category: "dummy"});
+	app.get('/products/:userid/', function(req, res) {
+		var userid = req.params.userid;
+		client.execute(getAllProductsOfUser,[userid],{ prepare: true }, function(err, result){
+    		if(err){
+        		res.status(404).send({msg: err});
+    		}
+    		else {
+        		res.status(200).json('products',{ products: result.rows });
+        	}
+    	});
 	});
 
 	app.put('/products/:productName', function(req, res) {
 		return res.json({name:"XYZ", price:"123", category: "dummy"});
+	});
+
+	app.delete('/products/:userid/:productid/:productname', function(req, res) {
+		var body = req.body;
+		var userid = req.params.userid;
+		var productid = req.params.productid;
+		var productname = req.params.productname;
+
+		client.execute(deleteProductOfUser, [userid, productid, productname], { prepare: true }, function(err, result) {
+    		if(err){
+        		res.status(404).send({msg: err});
+    		}
+    		else {
+        		res.status(200).json(result);
+        	}			
+		});
 	});
 }
