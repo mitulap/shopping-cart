@@ -11,7 +11,7 @@
                 <a href="/" class="pull-left"><img src="img/sc.png" id="spartan-logo"></a>
             </div>
             <div class="pull-right href-link-cls" style="margin-top: 15px;">
-            	<a href="/" class=""><span>Login Here</span></a>
+            	<a ng-click="login()" class=""><span>Login Here</span></a>
             </div>
 
                 
@@ -22,6 +22,7 @@
 
 
     <div class="registeration-form-cls">
+        <div ng-show="SuccessRegister" class="success-message">Registration Sucessful!</div>
     	<form class="navbar-form" role="login" ng-submit="register(params)">
             <div class="input-group login-input">
                 <input type="text" class="form-control" placeholder="username" ng-model="params.username"><br /><br />

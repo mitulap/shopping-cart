@@ -119,3 +119,13 @@ nav li a, #dropdown-menu{
     display: table;
     margin: 0 auto;
 }
+
+.success-message {
+    margin: 10px 10px;
+    color: black;
+    border: #000000;
+    border-radius: 13px;
+    border-width: 2px;
+    border-style: groove;
+    text-align: center;
+}
