@@ -2,19 +2,10 @@ shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$c
     
     $scope.invalid_login = true;
     $scope.unexpected_error = true;
-    $scope.signin = function() {
-        $scope.user_email = $scope.email;
-        $scope.user_type = $cookieStore.get("user_type");
+    $scope.errorLogin = false;
+    $scope.signin = function() { 
 
-        if($scope.params.username == $scope.params.password){
-            $cookieStore.put('isAuth', true);
-            $cookieStore.put('userId', 'tUid1');
-            $location.path("/" + "main");
-        }
-        $location.path("/" + "login");
-       
-
-/*        var url = "";
+        var url = "http://127.0.0.1:5000/authenticateUser"
         $http({
             method: 'POST',
             url: url,
@@ -30,18 +21,18 @@ shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$c
                 $cookieStore.put('userId', 'tUid1');
                 $location.path("/" + "main");
             }else{
-                $location.path("/" + "login");
+                $scope.errorLogin = true;
             }
             
         }).error(function(err){
             console.log(err);
-            $location.path("/" + "login");
-        });*/
+            $scope.errorLogin = true;
+        });
 
-    }
+    };
 
     $scope.register = function(){
         $location.path("/" + "register");
-    }
+    };
 
 }]);

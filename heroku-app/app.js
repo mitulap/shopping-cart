@@ -15,7 +15,7 @@ app.use(express.static('templates'));
 
 app.set('view engine', 'html');
 
-app.use('/', function (req, res) {
+app.use('*', function (req, res) {
 		/*if(true){
 			console.log("index");
 			res.render(__dirname + '/templates/main.html');

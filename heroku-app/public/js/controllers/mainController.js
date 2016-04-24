@@ -8,7 +8,7 @@ shoppingCart.controller('MainController', [ '$scope', '$interval', '$http', '$lo
         $location.path('/products');
     }else{
         console.log("login");
-        this.customHtml = $location.path( "/login" );
+        $location.path( "/login");
     }
 
     console.log('Main controller');

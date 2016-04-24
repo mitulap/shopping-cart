@@ -20,7 +20,6 @@
         <!-- /.container -->
     </nav>
 
-
     <div class="registeration-form-cls">
         <div ng-show="SuccessRegister" class="success-message">Registration Sucessful!</div>
     	<form class="navbar-form" role="login" ng-submit="register(params)">
@@ -28,8 +27,8 @@
                 <input type="text" class="form-control" placeholder="username" ng-model="params.username"><br /><br />
                 <input type="password" class="form-control" placeholder="password" ng-model="params.password"><br /><br />
                 <input type="text" class="form-control" placeholder="Email Id" ng-model="params.email"><br /><br />
-                <input type="text" class="form-control" placeholder="Address" ng-model="params.address"><br /><br />
-                <input type="text" class="form-control" placeholder="city" ng-model="params.city"><br /><br />
+                <input type="text" class="form-control" placeholder="Address or City" ng-model="params.address"><br /><br />
+                <input type="text" class="form-control" placeholder="phone" ng-model="params.phone"><br /><br />
                 <!-- <div class="input-group-btn"> -->
                     <button class="btn btn-default" type="submit">Register</button>
                 <!-- </div> -->

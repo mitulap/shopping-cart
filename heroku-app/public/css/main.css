@@ -121,11 +121,13 @@ nav li a, #dropdown-menu{
 }
 
 .success-message {
-    margin: 10px 10px;
+    margin: 10px auto;
     color: black;
     border: #000000;
     border-radius: 13px;
     border-width: 2px;
     border-style: groove;
     text-align: center;
+    display: table;
+    padding: 3px;
 }
