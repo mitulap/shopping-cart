@@ -10,35 +10,39 @@ var redisClient = require('../routes/redisConn');
 module.exports = function(app) {
 	//Return user input as response till db gets integrated
 	app.post('/users', function(req, res) {
+						console.log("session data : "+JSON.stringify(req.session));
+
 		console.log(req.body);
 		var body = req.body;
 		var userName = body.user.username;
 		var userPass = body.user.password;
 		var userEmail = body.user.email;
 		var userPhone = body.user.phone;
+		var userAddress = body.user.address;
 
 		var newUser = new user({
 			username : userName,
 			password : userPass,
 			email : userEmail,
-			phone : userPhone
+			phone : userPhone,
+			address : userAddress
 		});
 
 		newUser.save(function(err){
 			if(err) throw err;
 
 			console.log("user "+userName+" saved successfully");
-
-			redisClient.set(userName, userPass, function(err,reply){
-			console.log("reply from redis -> "+reply)
+			req.session = userName;
+//			req.session.regenerate();
+	//	console.log(req.session.regenerate());
+			 redisClient.set(userName, req.session, function(err,reply){
+			 console.log("reply from redis -> "+reply)
 			//	console.log("redis stored user : " +userName);
 		});
 
 		});
 
-		
-
-		return res.json({username: userName, password : userPass, emails: userEmail , phone : userPhone , saved :" successfully!"});
+		return res.json({username: userName, password : userPass, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
 
 	});
 
