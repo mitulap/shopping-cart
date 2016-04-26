@@ -6,10 +6,10 @@ The Github account belongs to Mitul Patel and the other members using it : Hemil
 Link to the waffle io’s taskboard: https://waffle.io/mitulap/shopping-cart
 
 •	Started work on session data using redis database. Set up the database on AWS and stored the session on redis.
-•	Created the ebay apis to import the inventory so that there is no need to write out a separate inventory for customers and their customized databases.
+•	Create the ebay apis to import the inventory so that there is no need to write out a separate inventory for customers and their customized databases.
+•	We did a research on how the ebay apis can be integrated with the code.
+•	Research a bit on JWT.
 •	We need to limit down the output search to get and display the data to limited products we need to keep and display on the screen to the customers.
 •	Set up a sign up registration page in nodejs and a login page for customers in nodejs.
-•	We also finished setting up mongodb on aws.
 •	Finished setting up user sign-in and sign-up apis.
-•	Ebay api keys are created and are going to be used in the product catalogue database.
-•	We finished the integration of our front end user interface with the backend database.
+•	We finished the integration of the backend with frontend UI.

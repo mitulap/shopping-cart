@@ -14,9 +14,17 @@ const client=new cassandra.Client({contactPoints : ['localhost:9042']});
 var getAllProductsOfUser = 'SELECT * FROM products.product WHERE userid=?';
 var createProductOfUser = 'INSERT INTO products.product(productname, productprice, productid, productcategory, productimageurl, userid) VALUES(?, ?, ?, ?, ?, ?)';
 var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=? AND productname=?'
+var redisClient = require('../routes/redisConn');
 
 module.exports = function(app) {
 	app.post('/products/:userid', function(req, res) {
+		
+		if(req.body.token){
+			redisClient.get(req.body.username, function(err, reply){
+					console.log(reply);
+			});
+		}
+		
 		var body = req.body;
 		var productName = body.product.name;
 		var productPrice = body.product.price;
