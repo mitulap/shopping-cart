@@ -5,8 +5,8 @@ It handles the request of (1) Creating a new product.
 */
 
 /*
-CREATE TABLE product(productname text, productprice int, productid int, productcategory text, productimageurl text, userid int, PRIMARY KEY((userid), productname));
-INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15, 1, 'electronics', 'http://example.com/product', 1);
+CREATE TABLE product(productname text, productprice float, productid text, productcategory text, productimageurl text, userid text, PRIMARY KEY((userid), productname));
+INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15.2, '1234', 'electronics', 'http://example.com/product', '123hash');
 */
 
 const cassandra = require('cassandra-driver');
