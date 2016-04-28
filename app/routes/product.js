@@ -5,8 +5,8 @@ It handles the request of (1) Creating a new product.
 */
 
 /*
-CREATE TABLE product(productname text, productprice int, productid int, productcategory text, productimageurl text, userid int, PRIMARY KEY((userid), productname));
-INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15, 1, 'electronics', 'http://example.com/product', 1);
+CREATE TABLE product(productname text, productprice float, productid text, productcategory text, productimageurl text, userid text, PRIMARY KEY((userid), productname));
+INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15.2, '1234', 'electronics', 'http://example.com/product', '123hash');
 */
 
 const cassandra = require('cassandra-driver');
@@ -14,9 +14,17 @@ const client=new cassandra.Client({contactPoints : ['localhost:9042']});
 var getAllProductsOfUser = 'SELECT * FROM products.product WHERE userid=?';
 var createProductOfUser = 'INSERT INTO products.product(productname, productprice, productid, productcategory, productimageurl, userid) VALUES(?, ?, ?, ?, ?, ?)';
 var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=? AND productname=?'
+var redisClient = require('../routes/redisConn');
 
 module.exports = function(app) {
 	app.post('/products/:userid', function(req, res) {
+		
+		if(req.body.token){
+			redisClient.get(req.body.username, function(err, reply){
+					console.log(reply);
+			});
+		}
+		
 		var body = req.body;
 		var productName = body.product.name;
 		var productPrice = body.product.price;
