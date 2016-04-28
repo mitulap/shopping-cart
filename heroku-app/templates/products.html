@@ -13,11 +13,14 @@
             <!-- /.navbar-collapse -->
 
             <div class="product-search pull-right">
-                <form class="navbar-form" role="login" ng-submit="signin()">
+                <form class="navbar-form" role="login" ng-submit="searchProduct(params)">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="search" ng-model="search">
+                    <input type="text" class="form-control" placeholder="search" ng-model="params.searchStr" required>
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit">search</button>
+                    </div>
+                    <div class="input-group-btn">
+                        <button ng-click="logout()" class="btn btn-default btn-custom" type="submit">Sign Out</button>
                     </div>
                 </div>
                 </form>
@@ -25,6 +28,83 @@
         </div>
         <!-- /.container -->
     </nav>
+
+
+<div class="product-list">
+    
+    <div onclick="location.href='details.html';" class="product-grid" ng-repeat="product in products" style="">
+        <div class="product-grid-head">
+            <!-- <ul class="grid-social">
+                <li><a class="facebook" href="#"><span> </span></a></li>
+                <li><a class="twitter" href="#"><span> </span></a></li>
+                <li><a class="googlep" href="#"><span> </span></a></li>
+                <div class="clear"> </div>
+            </ul> -->
+            <!-- <div class="block">
+                <div class="starbox small ghosting"><div class="positioner"><div class="stars"><div class="ghost" style="width: 42.5px; display: none;"></div><div class="colorbar" style="width: 42.5px;"></div><div class="star_holder"><div class="star star-0"></div><div class="star star-1"></div><div class="star star-2"></div><div class="star star-3"></div><div class="star star-4"></div></div></div></div></div> <span> (46)</span>
+            </div> -->
+        </div>
+        <div class="product-pic">
+            <a href="#"><img src="{{product.GalleryURL}}" title="product-name"></a>
+            <p>
+            <a href="#"><small>{{product.Title | limitTo:60}}</small></a>
+            </p>
+        </div>
+        <div class="product-info">
+            <div class="product-info-cust">
+                <a href="details.html">Add to Cart</a>
+            </div>
+            <div class="product-info-price">
+                <a href="details.html">$ {{product.ConvertedCurrentPrice.Value}}</a>
+            </div>
+            <div class="clear"> </div>
+        </div>
+        <div class="more-product-info">
+            <span> </span>
+        </div>
+    </div>
+
+</div>
+
+   <!--      <div class="row">
+            <div class="col-lg-12 text-center">
+
+            <div style="margin-top: 10px;">
+                <div onclick="location.href='details.html';" class="product-grid fade" ng-repeat="product in products" style="opacity: 1;">
+                    <div class="product-pic" >
+                        <a href="#"><img src="{{product.GalleryURL}}" title="product-name"></a>
+                        <p>
+                        <a href="#"><small>{{product.Title}}</small></a>
+                        </p>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-info-price">
+                            <a href="details.html">{{product.DiscountPriceInfo.OriginalRetailPrice.Value}}</a>
+                        </div>
+                        <div class="clear"> </div>
+                    </div>
+                    <div class="more-product-info">
+                        <span> </span>
+                    </div>
+                </div>    
+            </div> -->
+                <!-- <h1>Product Results</h1>
+                    <ul>
+                        <li ng-repeat="product in products">
+                          <span>{{product.Title}}</span>
+                          <p>{{product.DiscountPriceInfo.OriginalRetailPrice.Value}}</p>
+                          <img src="{{product.GalleryURL}}"></img>
+                          <button>Add to Cart</button>
+                        </li>
+                      </ul> -->
+           <!--  </div>
+        </div> -->
+    </div>
+
+
+
+
+
 
 
             

@@ -11,5 +11,12 @@ shoppingCart.controller('MainController', [ '$scope', '$interval', '$http', '$lo
         $location.path( "/login");
     }
 
+
+    $scope.logout = function(){
+        $cookieStore.remove('isAuth');
+        $cookieStore.put('userId', "");
+        $location.path("/login");
+    };
+
     console.log('Main controller');
 }]);

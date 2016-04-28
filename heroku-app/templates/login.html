@@ -15,8 +15,8 @@
             <div class="pull-right">
                 <form class="navbar-form" role="login" ng-submit="signin(params)">
                 <div class="input-group login-input">
-                    <input type="text" class="form-control" placeholder="username" ng-model="params.username">
-                    <input type="password" class="form-control" placeholder="password" ng-model="params.password">
+                    <input type="text" class="form-control" placeholder="username" ng-model="params.username" required>
+                    <input type="password" class="form-control" placeholder="password" ng-model="params.password" required>
                     <div class="input-group-btn">
                         <button class="btn btn-default" type="submit">Log In</button>
                     </div>
