@@ -90,7 +90,8 @@ nav li a, #dropdown-menu{
 }
 
 .log-in-header{
-    width: 50%;
+    margin-left: 15%;
+    width: 70%;
     /*display: inline;*/
 }
 
@@ -142,4 +143,29 @@ nav li a, #dropdown-menu{
     padding: 0;
     margin-top: 0;
     margin-left: 6%;
+}
+
+.cart-cls {
+    margin-left: 100px;
+}
+
+.co-cart {
+    margin-top: -31px;
+}
+
+.search-btn {
+    margin-top: -5px;
+}
+
+.login-header-cls {
+
+}
+
+.register-link-cls {
+    margin-left: 145px;
+}
+
+.product-pic p{
+    line-height: 20px;
+    overflow:auto;
 }
