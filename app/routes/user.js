@@ -28,7 +28,7 @@ module.exports = function(app) {
         });
 
         newUser.save(function(err){
-            if(err) return next(err);
+            if(err) return res.status(503).json(errorResponse(err, 503));
             console.log("user "+userName+" saved successfully");
             //req.session = userName;
             //req.session.regenerate();
@@ -48,7 +48,7 @@ module.exports = function(app) {
             user.findOne({ username : req.body.username }, function(error, data){
 
                 console.log("DATA : "+data);
-                    if (error) return next(error);
+                    if(error) return res.status(503).json(errorResponse(error, 503));;
 
                     if(data != null){
 
