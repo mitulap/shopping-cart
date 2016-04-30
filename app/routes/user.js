@@ -33,7 +33,7 @@ module.exports = function(app) {
             console.log("user "+userName+" saved successfully");
             //req.session = userName;
             //req.session.regenerate();
-            return res.json({username: userName, userid:user_id, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
+            return res.json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
         });
     });
 
@@ -101,7 +101,7 @@ module.exports = function(app) {
     //return res.json({username:"John Doe", email:"johndoe@gmail.com"});
         user.find({}, function(error, data){
             console.log(data);
-            res.json(data);
+            res.status(200).json(data);
         });
     });
 
