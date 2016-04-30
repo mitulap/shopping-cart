@@ -17,16 +17,28 @@ app.all(expressJWT({ secret: 'Ebay Shopping cart'}). unless({ path: ['/users/log
 
 //Modified express later on
 /*app.use(session({
-	key : 'redis key',
-	secret: 'ssshhhhh',
-	// create new redis store.
-	store: new redisStore({ host: 'localhost', port: 6379, client: redisClient,ttl :  260}),
-	saveUninitialized: false,
-	resave: false
+    key : 'redis key',
+    secret: 'ssshhhhh',
+    // create new redis store.
+    store: new redisStore({ host: 'localhost', port: 6379, client: redisClient,ttl :  260}),
+    saveUninitialized: false,
+    resave: false
 }));*/
 
 
 require('./app/routes/product')(app);
 require('./app/routes/user')(app);
+
+app.get('*', function(req, res, next) {
+  var err = new Error();
+  err.status = 404;
+  next(err);
+});
+
+app.post('*', function(req, res, next) {
+  var err = new Error();
+  err.status = 404;
+  next(err);
+});
 
 module.exports = app;
