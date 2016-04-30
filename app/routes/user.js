@@ -7,117 +7,108 @@ It handles the request of (1) Creating a new user in the system.
 var user = require('../models/userModel');
 var redisClient = require('../routes/redisConn');
 var jwt = require('jsonwebtoken');
-
+var errorResponse = require('./errorResponse');
 
 module.exports = function(app) {
-	//Return user input as response till db gets integrated
-	app.post('/users', function(req, res) {
-		// console.log(req.body);
-		var body = req.body;
-		var userName = body.user.username;
-		var userPass = body.user.password;
-		var userEmail = body.user.email;
-		var userPhone = body.user.phone;
-		var userAddress = body.user.address;
+    app.post('/users', function(req, res) {
+        // console.log(req.body);
+        var body = req.body;
+        var userName = body.user.username;
+        var userPass = body.user.password;
+        var userEmail = body.user.email;
+        var userPhone = body.user.phone;
+        var userAddress = body.user.address;
 
-		var newUser = new user({
-			username : userName,
-			password : userPass,
-			email : userEmail,
-			phone : userPhone,
-			address : userAddress
-		});
+        var newUser = new user({
+            username : userName,
+            password : userPass,
+            email : userEmail,
+            phone : userPhone,
+            address : userAddress
+        });
 
-		newUser.save(function(err){
-			if(err) throw err;
-			console.log("user "+userName+" saved successfully");
-			req.session = userName;
-			/*req.session.regenerate();
-			console.log(req.session.regenerate());
-			redisClient.set(userName, req.session, function(err,reply){
-			console.log("reply from redis -> "+reply)
-			//	console.log("redis stored user : " +userName);
-			});*/
+        newUser.save(function(err){
+            if(err) return next(err);
+            console.log("user "+userName+" saved successfully");
+            //req.session = userName;
+            //req.session.regenerate();
+            return res.status(200).json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
+        });
+    });
 
-		});
+    app.post('/users/login', function(req,res){
 
-		return res.json({username: userName, password : userPass, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
+            if(!req.body.username){
+                return res.status(400).json(errorResponse('username required!', 400));
+            }
+            if(!req.body.password){
+                return res.status(400).json(errorResponse('password required!', 400));
+            }
 
-	});
+            user.findOne({ username : req.body.username }, function(error, data){
 
-	app.post('/users/login', function(req,res){
-			
-			if(!req.body.username){
-				res.status(400).send('username required!');
-				return;
-			}
-			if(!req.body.password){
-				res.status(400).send('password required!');
-				return;
-			}
+                console.log("DATA : "+data);
+                    if (error) return next(error);
 
-			user.findOne({ username : req.body.username }, function(error, data){
-   			
-   			console.log("DATA : "+data);
-   				if (error) throw error;
+                    if(data != null){
 
-   				if(data != null){
+                        if(req.body.password == data.password){
+                            var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
+                            redisClient.set(req.body.username, myToken, function(err,reply){
+                                console.log("reply from redis -> "+reply);
+                                if(reply!=null) {
+                                   return  res.status(200).json({token:myToken, userid:data.user_id}); 
+                                }
+                                else {
+                                    return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
+                                }
+                            });
+                        }
+                    }
+                    /*data.comparePassword(req.body.password, function(error, isMatch){
+                        if(error) throw error;
+                        if(!isMatch){
+                            res.status(401).send('Invalid Password');
+                        } else{
+                            var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
+                            res.status(200).json(myToken);
+                        }
 
-   					if(req.body.password == data.password){
-					var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
-   			// 		res.status(200).json(myToken); 
+                    });
 
-					redisClient.set(req.body.username, myToken, function(err,reply){
-						console.log("reply from redis -> "+reply);
-					});
-   			 		res.status(200).json(myToken); 
-   					}
-				}
-				/*data.comparePassword(req.body.password, function(error, isMatch){
-					if(error) throw error;
-					if(!isMatch){
-						res.status(401).send('Invalid Password');
-					} else{
-						var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
-						res.status(200).json(myToken);   					
-					}
+                    console.log(data);*/
+                else
+                    return res.status(401).json(errorResponse('Invalid Input!', 401));
+                });
+    });
 
-				});
+    app.get('/users/:userName', function(req, res) {
 
-				console.log(data);*/
-    		else
-    			res.status(401).send('Invalid Input!');
-			});
-	});
+        console.log("GET request for : "+req.params.userName);
+        var name = req.params.userName;
+        redisClient.get(name, function(err,reply){
 
-	app.get('/users/:userName', function(req, res) {
-			
-		console.log("GET request for : "+req.params.userName);
-		var name = req.params.userName;
-		redisClient.get(name, function(err,reply){
-				console.log(" Redis reply ->  userName : "+name+" password : "+reply);
-		});
+            if(reply!=null) {
+                user.findOne({ username : req.params.userName }, function(error, data){
+                    console.log(data);
+                    return res.status(200).json(data);
+                });
+            }
+            else {
+                return res.status(401).json(errorResponse('No data available!', 401));
+            }
+        });
+    });
 
-		//return res.json({username:"John Doe", email:"johndoe@gmail.com"});
-		user.findOne({ username : req.params.userName }, function(error, data){
-			console.log(data);
-			res.json(data);
-		});
+    app.get('/users/', function(req, res) {
+        user.find({}, function(error, data){
+            return res.status(200).json(data);
+        });
+    });
 
-	});
+    app.put('/users/:userName', function(req, res) {
+        //Put request is empty
+        // return res.json({username:"John Doe", email:"johndoe@gmail.com"});
 
-	app.get('/users/', function(req, res) {
-	
-	//return res.json({username:"John Doe", email:"johndoe@gmail.com"});
-		user.find({}, function(error, data){
-			console.log(data);
-			res.json(data);
-		});
-	});
-
-	app.put('/users/:userName', function(req, res) {
-		//Put request is empty
-		// return res.json({username:"John Doe", email:"johndoe@gmail.com"});
-
-	});
+    });
 }
