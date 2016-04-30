@@ -7,10 +7,9 @@ It handles the request of (1) Creating a new user in the system.
 var user = require('../models/userModel');
 var redisClient = require('../routes/redisConn');
 var jwt = require('jsonwebtoken');
-
+var errorResponse = require('./errorResponse');
 
 module.exports = function(app) {
-    //Return user input as response till db gets integrated
     app.post('/users', function(req, res) {
         // console.log(req.body);
         var body = req.body;
@@ -33,34 +32,37 @@ module.exports = function(app) {
             console.log("user "+userName+" saved successfully");
             //req.session = userName;
             //req.session.regenerate();
-            return res.json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
+            return res.status(200).json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
         });
     });
 
     app.post('/users/login', function(req,res){
 
             if(!req.body.username){
-                return res.status(400).send('username required!');
+                return res.status(400).json(errorResponse('username required!', 400));
             }
             if(!req.body.password){
-                return res.status(400).send('password required!');
+                return res.status(400).json(errorResponse('password required!', 400));
             }
 
             user.findOne({ username : req.body.username }, function(error, data){
 
                 console.log("DATA : "+data);
-                    if (error) throw error;
+                    if (error) return next(error);
 
                     if(data != null){
 
                         if(req.body.password == data.password){
-                        var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
-                //      res.status(200).json(myToken); 
-
-                        redisClient.set(req.body.username, myToken, function(err,reply){
-                            console.log("reply from redis -> "+reply);
-                        });
-                        res.status(200).json({token:myToken, userid:data.user_id}); 
+                            var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
+                            redisClient.set(req.body.username, myToken, function(err,reply){
+                                console.log("reply from redis -> "+reply);
+                                if(reply!=null) {
+                                   return  res.status(200).json({token:myToken, userid:data.user_id}); 
+                                }
+                                else {
+                                    return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
+                                }
+                            });
                         }
                     }
                     /*data.comparePassword(req.body.password, function(error, isMatch){
@@ -76,7 +78,7 @@ module.exports = function(app) {
 
                     console.log(data);*/
                 else
-                    res.status(401).send('Invalid Input!');
+                    return res.status(401).json(errorResponse('Invalid Input!', 401));
                 });
     });
 
@@ -85,23 +87,22 @@ module.exports = function(app) {
         console.log("GET request for : "+req.params.userName);
         var name = req.params.userName;
         redisClient.get(name, function(err,reply){
-                console.log(" Redis reply ->  userName : "+name+" password : "+reply);
-        });
 
-        //return res.json({username:"John Doe", email:"johndoe@gmail.com"});
-        user.findOne({ username : req.params.userName }, function(error, data){
-            console.log(data);
-            res.json(data);
+            if(reply!=null) {
+                user.findOne({ username : req.params.userName }, function(error, data){
+                    console.log(data);
+                    return res.status(200).json(data);
+                });
+            }
+            else {
+                return res.status(401).json(errorResponse('No data available!', 401));
+            }
         });
-
     });
 
     app.get('/users/', function(req, res) {
-
-    //return res.json({username:"John Doe", email:"johndoe@gmail.com"});
         user.find({}, function(error, data){
-            console.log(data);
-            res.status(200).json(data);
+            return res.status(200).json(data);
         });
     });
 
