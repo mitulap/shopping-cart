@@ -1,0 +1,17 @@
+Week #4 Journal
+
+Hemil Parmar
+
+Github URL :https://github.com/mitulap/shopping-cart
+
+Waffle URL : https://waffle.io/mitulap/shopping-cart
+
+The Github account belongs to Mitul Patel, which is being shared for the 281 Project and used by the other team members including, Hemil Parmar, Vishv Brahmbhatt, Mugdha Despande and Pratyusha M.
+
+The past week 4 hass been challenging. As I had completed my work for the back-end Database API on mongoDb and Redis last week itself, I had to work on setting up the Clusters for the Databases to automate the replication process. I researched about the MongoDB clusters and Redis Cluster.
+I found out that to create a MongoDB cluster, We would need to create Replica sets on each server node separetly. And then Add those replica sets to the Configuration files of MongoDB. I have commited those mongodb configuration files to the Github. Same goes for the Redis Cluster. 
+
+
+Last Week Wrap-Up
+
+As the following week is the last week to complete the project, and we have completed the necessary features as of now.  We now focus on enhancing the work done. One thing that I will be doing is to write automated scripts that could configure the instances according to the need of the Auto-load balancer. Also We are aiming for the Data Analytics and we have implemented Cassandra for the Shopping cart, we could use D3.js to visualise the analytics and generate reports based on the admin needs.
