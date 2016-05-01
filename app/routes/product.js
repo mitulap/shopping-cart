@@ -39,7 +39,7 @@ module.exports = function(app) {
 				res.status(404).send({msg: err});
 			}
 			else {
-				res.status(201).json('message', "product added");
+				res.status(201).json(result);
 			}
 		});
 	});
@@ -51,7 +51,7 @@ module.exports = function(app) {
         		res.status(404).send({msg: err});
     		}
     		else {
-        		res.status(200).json('products',{ products: result.rows });
+        		res.status(200).json({ products: result.rows });
         	}
     	});
 	});
