@@ -39,7 +39,7 @@ module.exports = function(app) {
 				res.status(404).send({msg: err});
 			}
 			else {
-				res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productCategory:productcategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
+				res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productcategory:productCategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
 			}
 		});
 	});
