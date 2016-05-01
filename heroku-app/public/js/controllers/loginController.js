@@ -1,4 +1,4 @@
-shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$cookieStore', function($scope, $http, $location, $cookieStore) {
+shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$cookieStore', '__env', function($scope, $http, $location, $cookieStore, __env) {
     
     if($cookieStore.get('isAuth') == true){
         console.log("product");
@@ -25,7 +25,7 @@ shoppingCart.controller('SignInController', ['$scope', '$http', '$location' ,'$c
         }
 
 
-        /*var url = "http://127.0.0.1:5000/authenticateUser"
+        /*var url = "__env.apiUrl"
         $http({
             method: 'POST',
             url: url,

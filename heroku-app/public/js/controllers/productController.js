@@ -9,7 +9,11 @@ shoppingCart.controller('ProductController', [ '$scope', '$interval', '$http', '
     $scope.productList = true;
     $scope.searchProduct = function(){
 
-    	var urlPrefix = "http://open.api.ebay.com/shopping?callbackname=JSON_CALLBACK&callname=FindPopularItems&responseencoding=JSON&appid=HemilPar-Shopping-PRD-a2f839365-478878d5&siteid=0&QueryKeywords=";
+    	var urlPrefix = "http://open.api.ebay.com/shopping?" +
+                        "callbackname=JSON_CALLBACK&callname=FindPopularItems&" + 
+                        "responseencoding=JSON&" + 
+                        "appid=HemilPar-Shopping-PRD-a2f839365-478878d5&siteid=0&" + 
+                        "QueryKeywords=";
         
     	var urlVer = "&version=713";
 

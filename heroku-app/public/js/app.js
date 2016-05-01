@@ -1,5 +1,7 @@
 //this is where we will enter routes for application
 
+var __env = {};
+
 var shoppingCart = angular.module('shoppingCart', ['chart.js', 'ngRoute', 'ngAnimate', 'uiSwitch','ngCookies'])
 
     .config(function ($routeProvider) {
@@ -22,3 +24,5 @@ var shoppingCart = angular.module('shoppingCart', ['chart.js', 'ngRoute', 'ngAni
     }).
     otherwise({redirectTo: '/'});
 });
+
+shoppingCart.constant('__env',__env);
