@@ -5,7 +5,7 @@ It handles the request of (1) Creating a new product.
 */
 
 /*
-CREATE TABLE product(productname text, productprice float, productid text, productcategory text, productimageurl text, userid text, PRIMARY KEY((userid), productname));
+CREATE TABLE product(productname text, productprice float, productid text, productcategory text, productimageurl text, userid text, PRIMARY KEY((userid), productid));
 INSERT INTO product(productname, productprice, productid, productcategory, productimageurl, userid ) VALUES ('mobile', 15.2, '1234', 'electronics', 'http://example.com/product', '123hash');
 */
 
@@ -21,7 +21,7 @@ module.exports = function(app) {
 		
 		if(req.body.token){
 			redisClient.get(req.body.username, function(err, reply){
-					console.log(reply);
+				console.log(reply);
 			});
 		}
 		
@@ -39,7 +39,7 @@ module.exports = function(app) {
 				res.status(404).send({msg: err});
 			}
 			else {
-				res.status(201).json(result);
+				res.status(201).json({productname:productName, productprice: productPrice, productId: productid, productCategory:productcategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
 			}
 		});
 	});
@@ -57,7 +57,7 @@ module.exports = function(app) {
 	});
 
 	app.put('/products/:productName', function(req, res) {
-		return res.json({name:"XYZ", price:"123", category: "dummy"});
+		return res.json({name:'XYZ', price:'123', category: 'dummy'});
 	});
 
 	app.delete('/products/:userid/:productid/:productname', function(req, res) {

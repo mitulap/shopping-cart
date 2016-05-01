@@ -32,7 +32,7 @@ module.exports = function(app) {
             console.log("user "+userName+" saved successfully");
             //req.session = userName;
             //req.session.regenerate();
-            return res.status(200).json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :" successfully!"});
+            return res.status(200).json({username: userName, emails: userEmail , phone : userPhone , address : userAddress, saved :'true'});
         });
     });
 
