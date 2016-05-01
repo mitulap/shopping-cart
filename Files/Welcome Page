@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Shopping Cart</title>
+
+</head>
+<body>
+
+<div class="container mainWelCheckout" id="CheckoutGuest"> 
+    
+ 
+<div class="Cart_heading col-md-12 col-xs-12 padding0"> 
+<div class="col-md-12 col-xs-12 padding0">
+<div class="col-md-6 pull-left padding0 mobile-hidden" style="padding-bottom:10px;">
+<h3 class="Heading pull-left col-md-7 padding0">WELCOME</h3>
+</div>
+<!-- mobile-->
+<div class="col-xs-12 pull-left padding0 border-bottom mobile-only">
+<h3 class="Heading pull-left col-md-7 padding0">WELCOME</h3>
+<div class="mobile-only col-md-3 pull-right padding0 verisignimg" ><!--<img src="images/verisign_ico.png" width="90" height="42">--></div>
+</div>
+
+<div class="pull-right col-md-6 callGp mobile-hidden padding0" >
+
+<div class="col-md-4 pull-right padding0 text-right">
+<div class="needhelp text-right"><a href="#">Need Help?</a></div>
+<div class="clearfix"></div>
+<div class="pull-right call">Customer Services</div>
+<div class="clearfix"></div>
+<div class="callsmall">Call <span>669 252 6893</span></div></div>
+<div class="col-md-3 pull-right padding0 text-right verisigned_top">
+<!--<img src="images/verisign_ico.png" width="100" height="49">-->
+</div>
+</div>
+</div>
+
+</div>
+<div class="clearfix"></div> 
+
+<div class="col-md-12 col-xs-12 padding0 Login-RegUser">
+<div class="col-md-6 col-sm-6 col-xs-12 padding0 pull-left login_left">
+<h4 class="Subheading">Returning Customers</h4>
+<p class="mobile-hidden">Sign in to speed up the checkout process. It is the fastest way to review your selections, access your Address Book, and submit your order.</p>
+<form class="CheckoutLogin-registerUser" role="form">
+   <div class="form-group">      
+      <label for="lastname" class="col-md-5 col-sm-5 col-xs-10 control-label">Email address</label>      
+      <div class="col-md-7 col-sm-7 col-xs-12 padding0 control-label">
+         <input type="text" class="form-control" id="InputEmail" value="Enter email address" 
+       onfocus="(this.value == 'Enter email address') && (this.value = '')"
+       onblur="(this.value == '') && (this.value = 'Enter email address')" />
+      </div>
+   </div>  
+   <div class="form-group">      
+      <label for="lastname" class="col-md-5 col-sm-5 col-xs-10 control-label">Password</label>      
+      <div class="col-md-7 col-sm-7 col-xs-12 padding0 control-label">
+      
+      <input type="text" class="form-control" id="InputEmail" value="Enter password" 
+       onfocus="(this.value == 'Enter password') && (this.value = '')"
+       onblur="(this.value == '') && (this.value = 'Enter password')" />
+         <div class="forgot col-md-12 padding0 text-left"><a href="ForgotPassword.html">Forgot password?</a></div>
+      </div>
+   </div>
+   <div class="clearfix"></div>  
+   <div class="col-md-5  col-sm-5 col-xs-12 padding0 pull-right">
+    <a href="Delivery_address_registered_user.html" class="Continuebtn-Secured">SIGN IN</a> 
+   </div>
+</form>
+</div>
+
+<div class="col-md-5 col-sm-6 col-xs-12 padding0 login_right">
+<h4 class="Subheading">New Customers</h4>
+<p>You don’t need an account to checkout. You can always create one later if you want.</p>
+With an account you can:
+<ul class="list_newcustomer">
+<li> Check out faster</li>
+<li> Track your orders</li>
+<li> Get e-mail updates</li>
+<li> Share a Wish List</li>
+</ul>
+
+<div class=" col-md-6  col-sm-9 col-xs-12 mt15 pull-right">
+   <a href="About_you.html" class="Continuebtn-guest"> CONTINUE AS GUEST</a>
+  
+   </div>
+</div>
+</div>
+<div class="clearfix"></div>
+</div>
+
+
+</body>
+</html>
