@@ -27,7 +27,7 @@ module.exports = function(app) {
 		var productCategory = body.product.category;
 		var productImageUrl = body.product.imageurl;
 		var userid = req.params.userid;
-		var token = req.body.token;
+		var token = req.get('token');
 		var values = [productName, productPrice, productId, productCategory, productImageUrl, userid];
 
 
@@ -57,14 +57,29 @@ module.exports = function(app) {
 
 	app.get('/products/:userid/', function(req, res) {
 		var userid = req.params.userid;
-		client.execute(getAllProductsOfUser,[userid],{ prepare: true }, function(err, result){
-    		if(err){
-        		res.status(404).send({msg: err});
-    		}
-    		else {
-        		res.status(200).json({ products: result.rows });
-        	}
-    	});
+		var token = req.get('token');
+
+		if(token){
+			redisClient.get(userid, function(err, reply){
+				if(reply === token) {
+					client.execute(getAllProductsOfUser,[userid],{ prepare: true }, function(err, result){
+			    		if(err){
+			        		res.status(404).send({msg: err});
+			    		}
+			    		else {
+			        		res.status(200).json({ products: result.rows });
+			        	}
+			    	});
+				}
+				else {
+					return res.status(401).json(errorResponse('Invalid Query!', 401));
+				}
+			});
+		}
+		else {
+			return res.status(401).json(errorResponse('Invalid Query!', 401));
+		}
+
 	});
 
 	app.put('/products/:productName', function(req, res) {
