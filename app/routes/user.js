@@ -57,7 +57,7 @@ module.exports = function(app) {
                             redisClient.set(data.user_id, myToken, function(err,reply){
                                 console.log("reply from redis -> "+reply);
                                 if(reply!=null) {
-                                   return  res.status(200).json({token:myToken, userid:data.user_id}); 
+                                   return  res.status(200).json({token:myToken, userid:data.user_id});
                                 }
                                 else {
                                     return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
@@ -81,6 +81,17 @@ module.exports = function(app) {
                     return res.status(401).json(errorResponse('Invalid Input!', 401));
                 });
     });
+
+    app.put('/users/:userid/logout', function(req, res) {
+        var userid = req.params.userid;
+
+        redisClient.del(userid, function(err), reply) {
+            if(err) return res.status(401).json(errorResponse('Invalid Input!', 401));
+            else {
+                return res.status(200).json({logout:"true"});
+            }
+        }
+    }
 
     app.get('/users/:userName', function(req, res) {
 
