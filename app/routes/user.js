@@ -85,7 +85,7 @@ module.exports = function(app) {
     app.put('/users/:userid/logout', function(req, res) {
         var userid = req.params.userid;
 
-        redisClient.del(userid, function(err), reply) {
+        redisClient.del(userid, function(err, reply) {
             if(err) return res.status(401).json(errorResponse('Invalid Input!', 401));
             else {
                 return res.status(200).json({logout:"true"});
