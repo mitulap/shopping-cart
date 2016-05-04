@@ -90,8 +90,8 @@ module.exports = function(app) {
             else {
                 return res.status(200).json({logout:"true"});
             }
-        }
-    }
+        });
+    });
 
     app.get('/users/:userName', function(req, res) {
 
