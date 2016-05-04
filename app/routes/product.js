@@ -15,15 +15,10 @@ var getAllProductsOfUser = 'SELECT * FROM products.product WHERE userid=?';
 var createProductOfUser = 'INSERT INTO products.product(productname, productprice, productid, productcategory, productimageurl, userid) VALUES(?, ?, ?, ?, ?, ?)';
 var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=? AND productname=?'
 var redisClient = require('../routes/redisConn');
+var errorResponse = require('./errorResponse');
 
 module.exports = function(app) {
 	app.post('/products/:userid', function(req, res) {
-		
-		if(req.body.token){
-			redisClient.get(req.body.username, function(err, reply){
-				console.log(reply);
-			});
-		}
 		
 		var body = req.body;
 		var productName = body.product.name;
@@ -32,16 +27,32 @@ module.exports = function(app) {
 		var productCategory = body.product.category;
 		var productImageUrl = body.product.imageurl;
 		var userid = req.params.userid;
+		var token = req.body.token;
 		var values = [productName, productPrice, productId, productCategory, productImageUrl, userid];
 
-		client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
-			if(err) {
-				res.status(404).send({msg: err});
-			}
-			else {
-				res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productcategory:productCategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
-			}
-		});
+
+		if(token){
+			redisClient.get(userid, function(err, reply){
+				console.log(reply);
+				if(reply === token) {
+					client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
+						if(err) {
+							res.status(404).send({msg: err});
+						}
+						else {
+							res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productcategory:productCategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
+						}
+					});
+				}
+				else {
+					return res.status(401).json(errorResponse('Invalid Input!', 401));
+				}
+			});
+		}
+		else {
+			return res.status(401).json(errorResponse('Invalid Input!', 401));
+		}
+
 	});
 
 	app.get('/products/:userid/', function(req, res) {

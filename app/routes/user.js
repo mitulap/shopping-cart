@@ -54,7 +54,7 @@ module.exports = function(app) {
 
                         if(req.body.password == data.password){
                             var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
-                            redisClient.set(req.body.username, myToken, function(err,reply){
+                            redisClient.set(data.user_id, myToken, function(err,reply){
                                 console.log("reply from redis -> "+reply);
                                 if(reply!=null) {
                                    return  res.status(200).json({token:myToken, userid:data.user_id}); 
