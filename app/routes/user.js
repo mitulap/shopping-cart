@@ -36,13 +36,14 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/users/login', function(req,res){
+    app.post('/users/:userid/login', function(req,res){
+        var user_id = req.params.userid;
 
             if(!req.body.username){
                 return res.status(400).json(errorResponse('username required!', 400));
             }
             if(!req.body.password){
-                return res.status(400).json(errorResponse('password required!', 400));
+                return res.status(400).json(errorResponse('password  required!', 400));
             }
 
             user.findOne({ username : req.body.username }, function(error, data){
@@ -55,7 +56,7 @@ module.exports = function(app) {
                         if(req.body.password == data.password){
                             var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
 
-                            redisClient.get(name, function(err,reply){
+                            redisClient.get(user_id, function(err,reply){
 
                                 if(reply!=null) {
                                     return res.status(200).json({token:reply, userid:data.user_id});
@@ -70,7 +71,7 @@ module.exports = function(app) {
                                             return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
                                         }
                                     });
-                                }
+                                } 
                             });
 
                         }
