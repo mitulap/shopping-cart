@@ -50,15 +50,16 @@ module.exports = function(app) {
                 console.log("DATA : "+data);
                     if(error) return res.status(503).json(errorResponse(error, 503));;
 
-                    if(data != null){
+                    if(data !== null){
 
                         if(req.body.password == data.password){
                             var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
 
-                            redisClient.get(data.userid, function(err,reply){
+                            redisClient.get(data.userid, function(err,datareply){
 
-                                if(reply!=null) {
-                                    return res.status(200).json({token:reply, userid:data.user_id});
+                                if(datareply!==null) {
+                                    console.log("Token is not null");
+                                    return res.status(200).json({token:datareply, userid:data.user_id});
                                 }
                                 else {
                                     redisClient.set(data.user_id, myToken, function(err,reply){
