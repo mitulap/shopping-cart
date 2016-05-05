@@ -54,15 +54,25 @@ module.exports = function(app) {
 
                         if(req.body.password == data.password){
                             var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
-                            redisClient.set(data.user_id, myToken, function(err,reply){
-                                console.log("reply from redis -> "+reply);
+
+                            redisClient.get(name, function(err,reply){
+
                                 if(reply!=null) {
-                                   return  res.status(200).json({token:myToken, userid:data.user_id});
+                                    return res.status(200).json({token:reply, userid:data.user_id});
                                 }
                                 else {
-                                    return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
+                                    redisClient.set(data.user_id, myToken, function(err,reply){
+                                        console.log("reply from redis -> "+reply);
+                                        if(reply!=null) {
+                                           return res.status(200).json({token:myToken, userid:data.user_id});
+                                        }
+                                        else {
+                                            return res.status(503).json(errorResponse('Redis Service is unavailable', 503));
+                                        }
+                                    });
                                 }
                             });
+
                         }
                     }
                     /*data.comparePassword(req.body.password, function(error, isMatch){
@@ -114,6 +124,20 @@ module.exports = function(app) {
     app.get('/users/', function(req, res) {
         user.find({}, function(error, data){
             return res.status(200).json(data);
+        });
+    });
+
+    app.get('/users/:userid/authenticatesession', function(req, res) {
+        var userid = req.params.userid;
+        var token = req.get('token');
+
+        redisClient.get(userid, function(err, reply){
+            if(reply === token) {
+                return res.status(200).json({login: "true"});
+            }
+            else {
+                return res.status(404).json({login: "false"});
+            }
         });
     });
 
