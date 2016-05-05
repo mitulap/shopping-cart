@@ -36,7 +36,7 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/users/:userid/login', function(req,res){
+    app.post('/users/login', function(req,res){
 
             if(!req.body.username){
                 return res.status(400).json(errorResponse('username required!', 400));
