@@ -55,7 +55,7 @@ module.exports = function(app) {
                         if(req.body.password == data.password){
                             var myToken = jwt.sign({ username : req.body.username }, 'Ebay Shopping cart');
 
-                            redisClient.get(data.userid, function(err,datareply){
+                            redisClient.get(data.user_id, function(err,datareply){
 
                                 if(datareply!==null) {
                                     console.log("Token is not null");
