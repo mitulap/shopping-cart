@@ -18,87 +18,99 @@ var redisClient = require('../routes/redisConn');
 var errorResponse = require('./errorResponse');
 
 module.exports = function(app) {
-	app.post('/products/:userid', function(req, res) {
-		
-		var body = req.body;
-		var productName = body.product.name;
-		var productPrice = body.product.price;
-		var productId = body.product.id;
-		var productCategory = body.product.category;
-		var productImageUrl = body.product.imageurl;
-		var userid = req.params.userid;
-		var token = req.get('token');
-		var values = [productName, productPrice, productId, productCategory, productImageUrl, userid];
+    app.post('/products/:userid', function(req, res) {
+        
+        var body = req.body;
+        var productName = body.product.name;
+        var productPrice = body.product.price;
+        var productId = body.product.id;
+        var productCategory = body.product.category;
+        var productImageUrl = body.product.imageurl;
+        var userid = req.params.userid;
+        var token = req.get('token');
+        var values = [productName, productPrice, productId, productCategory, productImageUrl, userid];
 
 
-		if(token){
-			redisClient.get(userid, function(err, reply){
-				console.log(reply);
-				if(reply === token) {
-					client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
-						if(err) {
-							res.status(404).send({msg: err});
-						}
-						else {
-							res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productcategory:productCategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
-						}
-					});
-				}
-				else {
-					return res.status(401).json(errorResponse('Invalid Input!', 401));
-				}
-			});
-		}
-		else {
-			return res.status(401).json(errorResponse('Invalid Input!', 401));
-		}
+        if(token){
+            redisClient.get(userid, function(err, reply){
+                if(reply === token) {
+                    client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
+                        if(err) {
+                            res.status(404).send({msg: err});
+                        }
+                        else {
+                            res.status(201).json({productname:productName, productprice: productPrice, productid: productId, productcategory:productCategory, productimageurl: productImageUrl, userid:userid, saved:'true'});
+                        }
+                    });
+                }
+                else {
+                    return res.status(401).json(errorResponse('Invalid Input!', 401));
+                }
+            });
+        }
+        else {
+            return res.status(401).json(errorResponse('Invalid Input!', 401));
+        }
 
-	});
+    });
 
-	app.get('/products/:userid/', function(req, res) {
-		var userid = req.params.userid;
-		var token = req.get('token');
+    app.get('/products/:userid/', function(req, res) {
+        var userid = req.params.userid;
+        var token = req.get('token');
 
-		if(token){
-			redisClient.get(userid, function(err, reply){
-				if(reply === token) {
-					client.execute(getAllProductsOfUser,[userid],{ prepare: true }, function(err, result){
-			    		if(err){
-			        		res.status(404).send({msg: err});
-			    		}
-			    		else {
-			        		res.status(200).json({ products: result.rows });
-			        	}
-			    	});
-				}
-				else {
-					return res.status(401).json(errorResponse('Invalid Query!', 401));
-				}
-			});
-		}
-		else {
-			return res.status(401).json(errorResponse('Invalid Query!', 401));
-		}
+        if(token){
+            redisClient.get(userid, function(err, reply){
+                if(reply === token) {
+                    client.execute(getAllProductsOfUser,[userid],{ prepare: true }, function(err, result){
+                        if(err){
+                            res.status(404).send({msg: err});
+                        }
+                        else {
+                            res.status(200).json({ products: result.rows });
+                        }
+                    });
+                }
+                else {
+                    return res.status(401).json(errorResponse('Invalid Query!', 401));
+                }
+            });
+        }
+        else {
+            return res.status(401).json(errorResponse('Invalid Query!', 401));
+        }
 
-	});
+    });
 
-	app.put('/products/:productName', function(req, res) {
-		return res.json({name:'XYZ', price:'123', category: 'dummy'});
-	});
+    app.put('/products/:productName', function(req, res) {
+        return res.json({name:'XYZ', price:'123', category: 'dummy'});
+    });
 
-	app.delete('/products/:userid/:productid/:productname', function(req, res) {
-		var body = req.body;
-		var userid = req.params.userid;
-		var productid = req.params.productid;
-		var productname = req.params.productname;
+    app.delete('/products/:userid/:productid/:productname', function(req, res) {
+        var body = req.body;
+        var userid = req.params.userid;
+        var productid = req.params.productid;
+        var productname = req.params.productname;
+        var token = req.get('token');
 
-		client.execute(deleteProductOfUser, [userid, productid, productname], { prepare: true }, function(err, result) {
-    		if(err){
-        		res.status(404).send({msg: err});
-    		}
-    		else {
-        		res.status(200).json(result);
-        	}			
-		});
-	});
+        if(token){
+            redisClient.get(userid, function(err, reply){
+                if(reply === token) {
+                    client.execute(deleteProductOfUser, [userid, productid, productname], { prepare: true }, function(err, result) {
+                        if(err){
+                            res.status(404).json(errorResponse(err, 404));
+                        }
+                        else {
+                            res.status(200).json(result);
+                        }           
+                    });
+                }
+                else {
+                    return res.status(401).json(errorResponse('Invalid Input!', 401));
+                }
+            });
+        }
+        else {
+            return res.status(401).json(errorResponse('Invalid Input!', 401));
+        }
+    });
 }
