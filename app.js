@@ -4,8 +4,8 @@ var app = express();
 var mongoose = require('mongoose');
 var session = require('express-session');
 var redisStore = require("connect-redis")(session);
-var redis = require('redis');
-var redisClient = redis.createClient(6379, "localhost");
+// var redis = require('redis');
+// var redisClient = redis.createClient(6379, "localhost");
 var jwt = require('jsonwebtoken');
 var expressJWT = require('express-jwt');
 

@@ -16,7 +16,8 @@ var createProductOfUser = 'INSERT INTO products.product(productname, productpric
 var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=?'
 var getParticularProductOfUser = 'SELECT * FROM products.product WHERE userid=? AND productid=?'
 var updateParticularProductOfUser = 'UPDATE products.product SET quantity=? WHERE userid=? AND productid=?';
-var redisClient = require('../routes/redisConn');
+// var redisClient = require('../routes/redisConn');
+var redisClient = require('../routes/redisSlaveConn');
 var errorResponse = require('./errorResponse');
 
 module.exports = function(app) {

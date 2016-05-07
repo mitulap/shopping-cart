@@ -6,6 +6,7 @@ It handles the request of (1) Creating a new user in the system.
 
 var user = require('../models/userModel');
 var redisClient = require('../routes/redisConn');
+var redisSlaveClient = require('../routes/redisSlaveConn');
 var jwt = require('jsonwebtoken');
 var errorResponse = require('./errorResponse');
 
@@ -108,7 +109,7 @@ module.exports = function(app) {
 
         console.log("GET request for : "+req.params.userName);
         var name = req.params.userName;
-        redisClient.get(name, function(err,reply){
+        redisSlaveClient.get(name, function(err,reply){
 
             if(reply!=null) {
                 user.findOne({ username : req.params.userName }, function(error, data){
@@ -132,7 +133,7 @@ module.exports = function(app) {
         var userid = req.params.userid;
         var token = req.get('token');
 
-        redisClient.get(userid, function(err, reply){
+        redisSlaveClient.get(userid, function(err, reply){
             if(reply === token) {
                 return res.status(200).json({login: "true"});
             }
