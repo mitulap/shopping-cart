@@ -37,7 +37,7 @@ module.exports = function(app) {
                 if(reply === token) {
                     client.execute(getParticularProductOfUser,[userid, productId],{ prepare: true }, function(err, getresult){
                         if(getresult.rows.length === 0) {
-                            client.execute(createProductOfUser,values, { prepare: true }, function(err, result) {
+                            client.execute(createProductOfUser,intialValues, { prepare: true }, function(err, result) {
                                 if(err) {
                                     res.status(404).send({msg: err});
                                 }
