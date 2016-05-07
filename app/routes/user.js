@@ -37,6 +37,10 @@ module.exports = function(app) {
         });
     });
 
+    app.get('/ping', function(req, res) {
+        return res.status(200).json({});
+    });
+
     app.post('/users/login', function(req,res){
 
             if(!req.body.username){
