@@ -15,21 +15,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
   next();
 });
 app.all(expressJWT({ secret: 'Ebay Shopping cart'}). unless({ path: ['/users/login']}));
-
-//Modified express later on
-/*app.use(session({
-    key : 'redis key',
-    secret: 'ssshhhhh',
-    // create new redis store.
-    store: new redisStore({ host: 'localhost', port: 6379, client: redisClient,ttl :  260}),
-    saveUninitialized: false,
-    resave: false
-}));*/
-
 
 require('./app/routes/product')(app);
 require('./app/routes/user')(app);
