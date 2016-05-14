@@ -83,13 +83,13 @@ module.exports = function(app) {
 
         redisMasterClient.get(userid+':checkout', function(err,reply){
             if(reply!==null) {
+                return res.json({"sessionIsActive": "true"});
+            }
+            else {
                 redisMasterClient.set(userid+':checkout', myToken, function(err,reply) {
                     redisMasterClient.expire(userid+':checkout', 60);
                     return res.json({"sessionIsActive": "false"});
                 });
-            }
-            else {
-                return res.json({"sessionIsActive": "true"});
             }
         });
     });
