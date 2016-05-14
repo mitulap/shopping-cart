@@ -16,9 +16,13 @@ var createProductOfUser = 'INSERT INTO products.product(productname, productpric
 var deleteProductOfUser = 'DELETE FROM products.product WHERE userid=? AND productid=?'
 var getParticularProductOfUser = 'SELECT * FROM products.product WHERE userid=? AND productid=?'
 var updateParticularProductOfUser = 'UPDATE products.product SET quantity=? WHERE userid=? AND productid=?';
-// var redisClient = require('../routes/redisConn');
+var redisMasterClient = require('../routes/redisConn');
 var redisClient = require('../routes/redisSlaveConn');
 var errorResponse = require('./errorResponse');
+var jwt = require('jsonwebtoken');
+var os = require( 'os' );
+var networkInterfaces = os.networkInterfaces( );
+
 
 module.exports = function(app) {
     app.post('/products/:userid', function(req, res) {
@@ -73,6 +77,23 @@ module.exports = function(app) {
 
     });
 
+    app.post('/products/:userid/checkout', function(req, res) {
+        var userid = req.params.userid;
+        var myToken = jwt.sign({ username : userid }, 'Ebay Shopping cart');
+
+        redisMasterClient.get(userid+':checkout', function(err,reply){
+            if(reply!==null) {
+                redisMasterClient.set(userid+':checkout', myToken, function(err,reply) {
+                    redisMasterClient.expire(userid+':checkout', 60);
+                    return res.json({"sessionIsActive": "false"});
+                });
+            }
+            else {
+                return res.json({"sessionIsActive": "true"});
+            }
+        });
+    });
+
     app.get('/products/:userid/', function(req, res) {
         var userid = req.params.userid;
         var token = req.get('token');
@@ -85,7 +106,7 @@ module.exports = function(app) {
                             res.status(404).send({msg: err});
                         }
                         else {
-                            res.status(200).json({ products: result.rows });
+                            res.status(200).json({ products: result.rows, ip:networkInterfaces.wlan0[0].address });
                         }
                     });
                 }
