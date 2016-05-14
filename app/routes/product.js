@@ -106,7 +106,7 @@ module.exports = function(app) {
                             res.status(404).send({msg: err});
                         }
                         else {
-                            res.status(200).json({ products: result.rows, ip:networkInterfaces.wlan0[0].address });
+                            res.status(200).json({ products: result.rows, ip:networkInterfaces.eth0[0].address });
                         }
                     });
                 }
