@@ -11,7 +11,6 @@ This project is an implementation of shopping cart using amazon AWS cloud platfo
  * Then run `npm install` in project directory to install dependencies.
  * Run 'node server.js' to start server.
 
-### UI Heroku-app
+### UI front-end application
 
-Heroku-app is the main UI folder for front-end application. To run the application download source and install packages using 'npm install'.
-Then to run the application use 'node app.js'
+Our UI application is located at https://github.com/mitulap/blackEbay
