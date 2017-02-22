@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/mitulap/shopping-cart.png?label=ready&title=Ready)](https://waffle.io/mitulap/shopping-cart)
 # shopping-cart
 A repo for shopping cart project for CMPE281.
 
